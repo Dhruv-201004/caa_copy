@@ -1,0 +1,98 @@
+import {
+  createGalleryItem,
+  deleteGalleryItem,
+  updateGalleryItem,
+} from "@/app/admin/actions";
+import { dbConnect } from "@/lib/db";
+import GalleryItem from "@/lib/models/GalleryItem";
+
+export const dynamic = "force-dynamic";
+
+export default async function AdminGalleryPage() {
+  await dbConnect();
+  const gallery = await GalleryItem.find().sort({ createdAt: -1 }).lean();
+
+  return (
+    <div className="grid gap-8">
+      <div className="rounded-3xl bg-white p-6 shadow-sm">
+        <div className="text-sm font-semibold text-navy-900">Gallery</div>
+        <p className="mt-2 text-sm text-slate-600">
+          Upload and manage gallery images.
+        </p>
+      </div>
+
+      <form
+        action={createGalleryItem}
+        encType="multipart/form-data"
+        className="grid gap-4 rounded-3xl bg-white p-6 shadow-sm"
+      >
+        <div className="grid gap-4 md:grid-cols-2">
+          <div className="flex flex-col gap-2">
+            <label className="text-xs font-semibold text-navy-900">Title</label>
+            <input name="title" required className="rounded-xl border border-slate-200 px-4 py-3 text-sm" />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label className="text-xs font-semibold text-navy-900">Image URL (optional)</label>
+            <input name="imageUrl" className="rounded-xl border border-slate-200 px-4 py-3 text-sm" />
+          </div>
+        </div>
+        <div className="flex flex-col gap-2">
+          <label className="text-xs font-semibold text-navy-900">Upload Image</label>
+          <input type="file" name="image" accept="image/*" />
+        </div>
+        <button type="submit" className="w-fit rounded-full bg-navy-900 px-5 py-2 text-xs font-semibold text-ivory">
+          Add Gallery Item
+        </button>
+      </form>
+
+      <div className="grid gap-6">
+        {gallery.map((item) => (
+          <div key={item._id.toString()} className="rounded-3xl bg-white p-6 shadow-sm">
+            <div className="flex flex-col gap-4 md:flex-row md:items-center">
+              <img
+                src={item.imageUrl}
+                alt={item.title}
+                className="h-28 w-36 rounded-2xl object-cover"
+              />
+              <form
+                action={updateGalleryItem}
+                encType="multipart/form-data"
+                className="grid flex-1 gap-4"
+              >
+                <input type="hidden" name="id" value={item._id.toString()} />
+                <div className="flex flex-col gap-2">
+                  <label className="text-xs font-semibold text-navy-900">Title</label>
+                  <input name="title" defaultValue={item.title} className="rounded-xl border border-slate-200 px-4 py-3 text-sm" />
+                </div>
+                <div className="grid gap-4 md:grid-cols-2">
+                  <div className="flex flex-col gap-2">
+                    <label className="text-xs font-semibold text-navy-900">Image URL</label>
+                    <input name="imageUrl" defaultValue={item.imageUrl} className="rounded-xl border border-slate-200 px-4 py-3 text-sm" />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <label className="text-xs font-semibold text-navy-900">Replace Image</label>
+                    <input type="file" name="image" accept="image/*" />
+                  </div>
+                </div>
+                <button type="submit" className="w-fit rounded-full bg-navy-900 px-5 py-2 text-xs font-semibold text-ivory">
+                  Save Changes
+                </button>
+              </form>
+            </div>
+            <form action={deleteGalleryItem} className="mt-4">
+              <input type="hidden" name="id" value={item._id.toString()} />
+              <button type="submit" className="rounded-full border border-red-200 px-4 py-2 text-xs font-semibold text-red-600">
+                Delete Item
+              </button>
+            </form>
+          </div>
+        ))}
+        {gallery.length === 0 ? (
+          <div className="rounded-3xl border border-dashed border-slate-300 bg-white p-8 text-center text-sm text-slate-500">
+            No gallery items uploaded yet.
+          </div>
+        ) : null}
+      </div>
+    </div>
+  );
+}
