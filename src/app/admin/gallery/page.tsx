@@ -6,13 +6,16 @@ import {
 } from "@/app/admin/actions";
 import { dbConnect } from "@/lib/db";
 import GalleryItem from "@/lib/models/GalleryItem";
+import FileUploader from "@/components/ui/FileUploader";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminGalleryPage() {
   await requireAdmin();
   await dbConnect();
-  const gallery = (await GalleryItem.find().sort({ createdAt: -1 }).lean()) as any[];
+  const gallery = (await GalleryItem.find()
+    .sort({ createdAt: -1 })
+    .lean()) as any[];
 
   return (
     <div className="grid gap-8">
@@ -31,25 +34,34 @@ export default async function AdminGalleryPage() {
         <div className="grid gap-4 md:grid-cols-2">
           <div className="flex flex-col gap-2">
             <label className="text-xs font-semibold text-navy-900">Title</label>
-            <input name="title" required className="rounded-xl border border-slate-200 px-4 py-3 text-sm" />
-          </div>
-          <div className="flex flex-col gap-2">
-            <label className="text-xs font-semibold text-navy-900">Image URL (optional)</label>
-            <input name="imageUrl" className="rounded-xl border border-slate-200 px-4 py-3 text-sm" />
+            <input
+              name="title"
+              required
+              placeholder="Image title"
+              className="rounded-xl border border-slate-200 px-4 py-3 text-sm"
+            />
           </div>
         </div>
         <div className="flex flex-col gap-2">
-          <label className="text-xs font-semibold text-navy-900">Upload Image</label>
-          <input type="file" name="image" accept="image/*" />
+          <label className="text-xs font-semibold text-navy-900">
+            Upload Image
+          </label>
+          <FileUploader name="image" />
         </div>
-        <button type="submit" className="w-fit rounded-full bg-navy-900 px-5 py-2 text-xs font-semibold text-ivory">
+        <button
+          type="submit"
+          className="w-fit rounded-full bg-navy-900 px-5 py-2 text-xs font-semibold text-ivory"
+        >
           Add Gallery Item
         </button>
       </form>
 
       <div className="grid gap-6">
         {gallery.map((item) => (
-          <div key={item._id.toString()} className="rounded-3xl bg-white p-6 shadow-sm">
+          <div
+            key={item._id.toString()}
+            className="rounded-3xl bg-white p-6 shadow-sm"
+          >
             <div className="flex flex-col gap-4 md:flex-row md:items-center">
               <img
                 src={item.imageUrl}
@@ -63,27 +75,50 @@ export default async function AdminGalleryPage() {
               >
                 <input type="hidden" name="id" value={item._id.toString()} />
                 <div className="flex flex-col gap-2">
-                  <label className="text-xs font-semibold text-navy-900">Title</label>
-                  <input name="title" defaultValue={item.title} className="rounded-xl border border-slate-200 px-4 py-3 text-sm" />
+                  <label className="text-xs font-semibold text-navy-900">
+                    Title
+                  </label>
+                  <input
+                    name="title"
+                    defaultValue={item.title}
+                    placeholder="Image title"
+                    className="rounded-xl border border-slate-200 px-4 py-3 text-sm"
+                  />
                 </div>
                 <div className="grid gap-4 md:grid-cols-2">
                   <div className="flex flex-col gap-2">
-                    <label className="text-xs font-semibold text-navy-900">Image URL</label>
-                    <input name="imageUrl" defaultValue={item.imageUrl} className="rounded-xl border border-slate-200 px-4 py-3 text-sm" />
+                    <label className="text-xs font-semibold text-navy-900">
+                      Current Image
+                    </label>
+                    <input
+                      name="currentImage"
+                      defaultValue={item.imageUrl}
+                      readOnly
+                      title="Current image URL"
+                      className="rounded-xl border border-slate-200 px-4 py-3 text-sm bg-slate-50"
+                    />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <label className="text-xs font-semibold text-navy-900">Replace Image</label>
-                    <input type="file" name="image" accept="image/*" />
+                    <label className="text-xs font-semibold text-navy-900">
+                      Replace Image
+                    </label>
+                    <FileUploader name="image" />
                   </div>
                 </div>
-                <button type="submit" className="w-fit rounded-full bg-navy-900 px-5 py-2 text-xs font-semibold text-ivory">
+                <button
+                  type="submit"
+                  className="w-fit rounded-full bg-navy-900 px-5 py-2 text-xs font-semibold text-ivory"
+                >
                   Save Changes
                 </button>
               </form>
             </div>
             <form action={deleteGalleryItem} className="mt-4">
               <input type="hidden" name="id" value={item._id.toString()} />
-              <button type="submit" className="rounded-full border border-red-200 px-4 py-2 text-xs font-semibold text-red-600">
+              <button
+                type="submit"
+                className="rounded-full border border-red-200 px-4 py-2 text-xs font-semibold text-red-600"
+              >
                 Delete Item
               </button>
             </form>
