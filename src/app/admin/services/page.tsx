@@ -12,7 +12,7 @@ export const dynamic = "force-dynamic";
 export default async function AdminServicesPage() {
   await requireAdmin();
   await dbConnect();
-  const services = await Service.find().sort({ createdAt: -1 }).lean();
+  const services = (await Service.find().sort({ createdAt: -1 }).lean()) as any[];
 
   return (
     <div className="grid gap-8">

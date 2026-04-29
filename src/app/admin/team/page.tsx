@@ -12,7 +12,7 @@ export const dynamic = "force-dynamic";
 export default async function AdminTeamPage() {
   await requireAdmin();
   await dbConnect();
-  const team = await TeamMember.find().sort({ createdAt: -1 }).lean();
+  const team = (await TeamMember.find().sort({ createdAt: -1 }).lean()) as any[];
 
   return (
     <div className="grid gap-8">
