@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 export default async function AdminContactsPage() {
   await requireAdmin();
   await dbConnect();
-  const contacts = await Contact.find().sort({ createdAt: -1 }).lean();
+  const contacts = (await Contact.find().sort({ createdAt: -1 }).lean()) as any[];
 
   return (
     <div className="grid gap-8">
