@@ -2,6 +2,7 @@ import {
   createCertificate,
   deleteCertificate,
   updateCertificate,
+  requireAdmin,
 } from "@/app/admin/actions";
 import { dbConnect } from "@/lib/db";
 import Certificate from "@/lib/models/Certificate";
@@ -9,6 +10,7 @@ import Certificate from "@/lib/models/Certificate";
 export const dynamic = "force-dynamic";
 
 export default async function AdminCertificatesPage() {
+  await requireAdmin();
   await dbConnect();
   const certificates = await Certificate.find().sort({ createdAt: -1 }).lean();
 

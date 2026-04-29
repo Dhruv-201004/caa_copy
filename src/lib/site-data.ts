@@ -11,8 +11,7 @@ export const navItems = [
 
 export const firmStats = [
   { value: "850+", label: "Clients served" },
-  { value: "18+", label: "Years of experience" },
-  { value: "98%", label: "Client success rate" },
+  { value: "25+", label: "Years of experience" },
   { value: "24/7", label: "Advisory support" },
 ];
 

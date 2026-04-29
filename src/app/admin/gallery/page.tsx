@@ -2,6 +2,7 @@ import {
   createGalleryItem,
   deleteGalleryItem,
   updateGalleryItem,
+  requireAdmin,
 } from "@/app/admin/actions";
 import { dbConnect } from "@/lib/db";
 import GalleryItem from "@/lib/models/GalleryItem";
@@ -9,6 +10,7 @@ import GalleryItem from "@/lib/models/GalleryItem";
 export const dynamic = "force-dynamic";
 
 export default async function AdminGalleryPage() {
+  await requireAdmin();
   await dbConnect();
   const gallery = await GalleryItem.find().sort({ createdAt: -1 }).lean();
 

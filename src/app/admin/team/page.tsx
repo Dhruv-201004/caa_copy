@@ -2,6 +2,7 @@ import {
   createTeamMember,
   deleteTeamMember,
   updateTeamMember,
+  requireAdmin,
 } from "@/app/admin/actions";
 import { dbConnect } from "@/lib/db";
 import TeamMember from "@/lib/models/TeamMember";
@@ -9,6 +10,7 @@ import TeamMember from "@/lib/models/TeamMember";
 export const dynamic = "force-dynamic";
 
 export default async function AdminTeamPage() {
+  await requireAdmin();
   await dbConnect();
   const team = await TeamMember.find().sort({ createdAt: -1 }).lean();
 

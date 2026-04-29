@@ -1,10 +1,11 @@
-import { deleteContact } from "@/app/admin/actions";
+import { deleteContact, requireAdmin } from "@/app/admin/actions";
 import { dbConnect } from "@/lib/db";
 import Contact from "@/lib/models/Contact";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminContactsPage() {
+  await requireAdmin();
   await dbConnect();
   const contacts = await Contact.find().sort({ createdAt: -1 }).lean();
 

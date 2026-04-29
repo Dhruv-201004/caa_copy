@@ -2,6 +2,7 @@ import {
   createCareer,
   deleteCareer,
   updateCareer,
+  requireAdmin,
 } from "@/app/admin/actions";
 import { dbConnect } from "@/lib/db";
 import Career from "@/lib/models/Career";
@@ -9,6 +10,7 @@ import Career from "@/lib/models/Career";
 export const dynamic = "force-dynamic";
 
 export default async function AdminCareersPage() {
+  await requireAdmin();
   await dbConnect();
   const careers = await Career.find().sort({ createdAt: -1 }).lean();
 

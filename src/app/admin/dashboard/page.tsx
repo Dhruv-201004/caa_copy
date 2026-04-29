@@ -1,3 +1,4 @@
+import { requireAdmin } from "@/app/admin/actions";
 import { dbConnect } from "@/lib/db";
 import Service from "@/lib/models/Service";
 import TeamMember from "@/lib/models/TeamMember";
@@ -9,6 +10,7 @@ import Contact from "@/lib/models/Contact";
 export const dynamic = "force-dynamic";
 
 export default async function AdminDashboardPage() {
+  await requireAdmin();
   await dbConnect();
 
   const [

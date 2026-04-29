@@ -14,13 +14,17 @@ export default async function AdminLayout({
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <div className="flex">
-        <AdminSidebar />
-        <div className="flex flex-1 flex-col">
-          <AdminTopbar userName={session?.user?.name} />
-          <main className="flex-1 px-6 py-8 lg:px-10">{children}</main>
+      {session?.user ? (
+        <div className="flex">
+          <AdminSidebar />
+          <div className="flex flex-1 flex-col">
+            <AdminTopbar userName={session.user.name} />
+            <main className="flex-1 px-6 py-8 lg:px-10">{children}</main>
+          </div>
         </div>
-      </div>
+      ) : (
+        <main>{children}</main>
+      )}
     </div>
   );
 }

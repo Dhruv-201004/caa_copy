@@ -2,6 +2,7 @@ import {
   createService,
   deleteService,
   updateService,
+  requireAdmin,
 } from "@/app/admin/actions";
 import { dbConnect } from "@/lib/db";
 import Service from "@/lib/models/Service";
@@ -9,6 +10,7 @@ import Service from "@/lib/models/Service";
 export const dynamic = "force-dynamic";
 
 export default async function AdminServicesPage() {
+  await requireAdmin();
   await dbConnect();
   const services = await Service.find().sort({ createdAt: -1 }).lean();
 
