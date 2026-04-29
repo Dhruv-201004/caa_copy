@@ -12,7 +12,7 @@ export const dynamic = "force-dynamic";
 export default async function AdminCareersPage() {
   await requireAdmin();
   await dbConnect();
-  const careers = await Career.find().sort({ createdAt: -1 }).lean();
+  const careers = (await Career.find().sort({ createdAt: -1 }).lean()) as any[];
 
   type Application = {
     _id: string;

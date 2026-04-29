@@ -14,7 +14,7 @@ function initials(name: string) {
 }
 
 export default async function TeamPage() {
-  const team = await getTeam();
+  const team = (await getTeam()) as any[];
   const members = team.length > 0 ? team : defaultTeam;
 
   return (

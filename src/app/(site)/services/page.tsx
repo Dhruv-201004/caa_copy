@@ -12,7 +12,7 @@ type ServiceItem = {
 };
 
 export default async function ServicesPage() {
-  const services = await getServices();
+  const services = (await getServices()) as unknown as ServiceItem[];
   const items: ServiceItem[] = services.length > 0 ? services : defaultServices;
 
   const grouped = items.reduce<Record<string, ServiceItem[]>>((acc, service) => {

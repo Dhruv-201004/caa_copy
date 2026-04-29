@@ -15,7 +15,7 @@ type CareerItem = {
 };
 
 export default async function CareersPage() {
-  const careers = await getCareers();
+  const careers = (await getCareers()) as unknown as CareerItem[];
   const jobs: CareerItem[] = careers.length > 0 ? careers : defaultCareers;
 
   return (

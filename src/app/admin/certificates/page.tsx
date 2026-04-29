@@ -12,7 +12,7 @@ export const dynamic = "force-dynamic";
 export default async function AdminCertificatesPage() {
   await requireAdmin();
   await dbConnect();
-  const certificates = await Certificate.find().sort({ createdAt: -1 }).lean();
+  const certificates = (await Certificate.find().sort({ createdAt: -1 }).lean()) as any[];
 
   return (
     <div className="grid gap-8">
