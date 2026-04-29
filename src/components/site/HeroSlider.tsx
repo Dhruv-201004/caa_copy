@@ -74,7 +74,7 @@ export default function HeroSlider() {
               
               <div className="flex flex-col sm:flex-row justify-center gap-6 pointer-events-auto">
                 <Link
-                  href="#services"
+                  href="/services"
                   className="group relative inline-flex items-center justify-center px-8 py-4 text-base font-semibold text-white transition-all duration-300 bg-gold border border-gold hover:bg-transparent overflow-hidden rounded-sm"
                 >
                   <span className="absolute inset-0 w-0 bg-white transition-all duration-300 ease-out group-hover:w-full opacity-10"></span>
@@ -84,7 +84,7 @@ export default function HeroSlider() {
                   </span>
                 </Link>
                 <Link
-                  href="#contact"
+                  href="/contact"
                   className="group inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white transition-all duration-300 border border-white/30 bg-transparent hover:border-gold hover:text-gold rounded-sm backdrop-blur-sm"
                 >
                   Book a Consultation

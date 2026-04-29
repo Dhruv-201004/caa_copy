@@ -9,9 +9,13 @@ export default function SiteHeader() {
       url: "/",
       src: "/logo.png",
       alt: "Ajit Agarwal & Associates Logo",
-      title: "",
+      title: "Ajit Agarwal & Associates",
     },
     menu: [
+      {
+        title: "Home",
+        url: "/",
+      },
       {
         title: "Services",
         url: "/services",

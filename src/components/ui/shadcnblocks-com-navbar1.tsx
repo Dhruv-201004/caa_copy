@@ -205,7 +205,7 @@ const Navbar1 = ({
                   <Accordion
                     type="single"
                     collapsible
-                    className="flex w-full flex-col gap-4"
+                    className="flex w-full flex-col gap-7"
                   >
                     {menu.map((item) => renderMobileMenuItem(item))}
                   </Accordion>
@@ -249,7 +249,7 @@ const Navbar1 = ({
 const renderMenuItem = (item: MenuItem) => {
   if (item.items) {
     return (
-      <NavigationMenuItem key={item.title} className="text-slate-600">
+      <NavigationMenuItem key={item.title} className="">
         <NavigationMenuTrigger>{item.title}</NavigationMenuTrigger>
         <NavigationMenuContent>
           <ul className="w-80 p-3">
@@ -258,7 +258,7 @@ const renderMenuItem = (item: MenuItem) => {
               {item.items.map((subItem) => (
                 <li key={subItem.title}>
                   <a
-                    className="flex select-none gap-4 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-slate-100 hover:text-navy-900"
+                    className="flex select-none gap-4 rounded-md p-3 leading-none bg-white no-underline outline-none transition-colors hover:bg-slate-100 hover:text-navy-900"
                     href={subItem.url}
                   >
                     {subItem.icon}
@@ -286,7 +286,7 @@ const renderMenuItem = (item: MenuItem) => {
   return (
     <a
       key={item.title}
-      className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-100 hover:text-navy-900"
+      className="group inline-flex h-10 w-max items-center justify-center rounded-md  px-4 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-100 hover:text-navy-900"
       href={item.url}
     >
       {item.title}
