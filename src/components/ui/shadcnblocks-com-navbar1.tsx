@@ -152,8 +152,8 @@ const Navbar1 = ({
         <nav className="hidden justify-between lg:flex">
           <div className="flex items-center gap-6">
             <a href={logo.url} className="flex items-center gap-2">
-              <img src={logo.src} className="w-8 rounded" alt={logo.alt} />
-              <span className="text-lg font-semibold">{logo.title}</span>
+              <img src={logo.src} className="h-12 w-auto object-contain" alt={logo.alt} />
+              {logo.title && <span className="text-lg font-semibold">{logo.title}</span>}
             </a>
             <div className="flex items-center">
               <NavigationMenu>
@@ -163,20 +163,24 @@ const Navbar1 = ({
               </NavigationMenu>
             </div>
           </div>
-          <div className="flex gap-2">
-            <Button asChild variant="outline" size="sm">
-              <a href={auth.login.url}>{auth.login.text}</a>
-            </Button>
-            <Button asChild size="sm">
-              <a href={auth.signup.url}>{auth.signup.text}</a>
-            </Button>
+          <div className="flex gap-4 items-center">
+            {auth?.login?.text && (
+              <Button asChild variant="outline" size="sm">
+                <a href={auth.login.url}>{auth.login.text}</a>
+              </Button>
+            )}
+            {auth?.signup?.text && (
+              <Button asChild size="default" className="bg-navy-900 text-white font-bold hover:bg-navy-800 shadow-md">
+                <a href={auth.signup.url}>{auth.signup.text}</a>
+              </Button>
+            )}
           </div>
         </nav>
         <div className="block lg:hidden">
           <div className="flex items-center justify-between">
             <a href={logo.url} className="flex items-center gap-2">
-              <img src={logo.src} className="w-8 rounded" alt={logo.alt} />
-              <span className="text-lg font-semibold">{logo.title}</span>
+              <img src={logo.src} className="h-10 w-auto object-contain" alt={logo.alt} />
+              {logo.title && <span className="text-lg font-semibold">{logo.title}</span>}
             </a>
             <Sheet>
               <SheetTrigger asChild>
@@ -184,14 +188,16 @@ const Navbar1 = ({
                   <Menu className="size-4" />
                 </Button>
               </SheetTrigger>
-              <SheetContent className="overflow-y-auto">
-                <SheetHeader>
+              <SheetContent className="overflow-y-auto bg-white sm:max-w-sm text-navy-900 border-none">
+                <SheetHeader className="text-left">
                   <SheetTitle>
                     <a href={logo.url} className="flex items-center gap-2">
-                      <img src={logo.src} className="w-8 rounded" alt={logo.alt} />
-                      <span className="text-lg font-semibold">
-                        {logo.title}
-                      </span>
+                      <img src={logo.src} className="h-10 w-auto object-contain" alt={logo.alt} />
+                      {logo.title && (
+                        <span className="text-lg font-semibold">
+                          {logo.title}
+                        </span>
+                      )}
                     </a>
                   </SheetTitle>
                 </SheetHeader>
@@ -203,26 +209,32 @@ const Navbar1 = ({
                   >
                     {menu.map((item) => renderMobileMenuItem(item))}
                   </Accordion>
-                  <div className="border-t py-4">
-                    <div className="grid grid-cols-2 justify-start">
-                      {mobileExtraLinks.map((link, idx) => (
-                        <a
-                          key={idx}
-                          className="inline-flex h-10 items-center gap-2 whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-accent-foreground"
-                          href={link.url}
-                        >
-                          {link.name}
-                        </a>
-                      ))}
+                  {mobileExtraLinks && mobileExtraLinks.length > 0 && (
+                    <div className="border-t py-4">
+                      <div className="grid grid-cols-2 justify-start">
+                        {mobileExtraLinks.map((link, idx) => (
+                          <a
+                            key={idx}
+                            className="inline-flex h-10 items-center gap-2 whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-100 hover:text-navy-900"
+                            href={link.url}
+                          >
+                            {link.name}
+                          </a>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex flex-col gap-3">
-                    <Button asChild variant="outline">
-                      <a href={auth.login.url}>{auth.login.text}</a>
-                    </Button>
-                    <Button asChild>
-                      <a href={auth.signup.url}>{auth.signup.text}</a>
-                    </Button>
+                  )}
+                  <div className="flex flex-col gap-3 mt-6">
+                    {auth?.login?.text && (
+                      <Button asChild variant="outline" className="w-full text-base h-12">
+                        <a href={auth.login.url}>{auth.login.text}</a>
+                      </Button>
+                    )}
+                    {auth?.signup?.text && (
+                      <Button asChild className="w-full text-base h-12 bg-navy-900 text-white font-bold hover:bg-navy-800 shadow-md">
+                        <a href={auth.signup.url}>{auth.signup.text}</a>
+                      </Button>
+                    )}
                   </div>
                 </div>
               </SheetContent>
@@ -237,7 +249,7 @@ const Navbar1 = ({
 const renderMenuItem = (item: MenuItem) => {
   if (item.items) {
     return (
-      <NavigationMenuItem key={item.title} className="text-muted-foreground">
+      <NavigationMenuItem key={item.title} className="text-slate-600">
         <NavigationMenuTrigger>{item.title}</NavigationMenuTrigger>
         <NavigationMenuContent>
           <ul className="w-80 p-3">
@@ -246,7 +258,7 @@ const renderMenuItem = (item: MenuItem) => {
               {item.items.map((subItem) => (
                 <li key={subItem.title}>
                   <a
-                    className="flex select-none gap-4 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-muted hover:text-accent-foreground"
+                    className="flex select-none gap-4 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-slate-100 hover:text-navy-900"
                     href={subItem.url}
                   >
                     {subItem.icon}
@@ -255,7 +267,7 @@ const renderMenuItem = (item: MenuItem) => {
                         {subItem.title}
                       </div>
                       {subItem.description && (
-                        <p className="text-sm leading-snug text-muted-foreground">
+                        <p className="text-sm leading-snug text-slate-600">
                           {subItem.description}
                         </p>
                       )}
@@ -274,7 +286,7 @@ const renderMenuItem = (item: MenuItem) => {
   return (
     <a
       key={item.title}
-      className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-accent-foreground"
+      className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-100 hover:text-navy-900"
       href={item.url}
     >
       {item.title}
@@ -286,21 +298,21 @@ const renderMobileMenuItem = (item: MenuItem) => {
   if (item.items) {
     return (
       <AccordionItem key={item.title} value={item.title} className="border-b-0">
-        <AccordionTrigger className="py-0 font-semibold hover:no-underline">
+        <AccordionTrigger className="py-2 text-lg font-semibold hover:no-underline">
           {item.title}
         </AccordionTrigger>
-        <AccordionContent className="mt-2">
+        <AccordionContent className="mt-2 flex flex-col gap-2">
           {item.items.map((subItem) => (
             <a
               key={subItem.title}
-              className="flex select-none gap-4 rounded-md p-3 leading-none outline-none transition-colors hover:bg-muted hover:text-accent-foreground"
+              className="flex select-none gap-4 rounded-md p-3 leading-none outline-none transition-colors hover:bg-slate-100 hover:text-navy-900"
               href={subItem.url}
             >
               {subItem.icon}
               <div>
-                <div className="text-sm font-semibold">{subItem.title}</div>
+                <div className="text-base font-semibold">{subItem.title}</div>
                 {subItem.description && (
-                  <p className="text-sm leading-snug text-muted-foreground">
+                  <p className="text-sm leading-snug text-slate-600 mt-1">
                     {subItem.description}
                   </p>
                 )}
@@ -313,7 +325,7 @@ const renderMobileMenuItem = (item: MenuItem) => {
   }
 
   return (
-    <a key={item.title} href={item.url} className="font-semibold block py-2">
+    <a key={item.title} href={item.url} className="font-semibold block py-2 text-lg">
       {item.title}
     </a>
   );

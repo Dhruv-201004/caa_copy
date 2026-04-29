@@ -7,15 +7,11 @@ export default function SiteHeader() {
   const brandData = {
     logo: {
       url: "/",
-      src: "https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?q=80&w=150&auto=format&fit=crop",
+      src: "/logo.png",
       alt: "Ajit Agarwal & Associates Logo",
-      title: "Ajit Agarwal & Associates",
+      title: "",
     },
     menu: [
-      {
-        title: "Home",
-        url: "/",
-      },
       {
         title: "Services",
         url: "/services",
@@ -49,12 +45,9 @@ export default function SiteHeader() {
         url: "/contact",
       }
     ],
-    mobileExtraLinks: [
-      { name: "Services", url: "/services" },
-      { name: "Contact", url: "/contact" },
-    ],
+    mobileExtraLinks: [],
     auth: {
-      login: { text: "Home", url: "/" },
+      login: { text: "", url: "/" },
       signup: { text: "Book Consultation", url: "/contact" },
     },
   };
