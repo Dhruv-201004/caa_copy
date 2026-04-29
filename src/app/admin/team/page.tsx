@@ -6,13 +6,16 @@ import {
 } from "@/app/admin/actions";
 import { dbConnect } from "@/lib/db";
 import TeamMember from "@/lib/models/TeamMember";
+import FileUploader from "@/components/ui/FileUploader";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminTeamPage() {
   await requireAdmin();
   await dbConnect();
-  const team = (await TeamMember.find().sort({ createdAt: -1 }).lean()) as any[];
+  const team = (await TeamMember.find()
+    .sort({ createdAt: -1 })
+    .lean()) as any[];
 
   return (
     <div className="grid gap-8">
@@ -23,60 +26,117 @@ export default async function AdminTeamPage() {
         </p>
       </div>
 
-      <form action={createTeamMember} className="grid gap-4 rounded-3xl bg-white p-6 shadow-sm">
+      <form
+        action={createTeamMember}
+        className="grid gap-4 rounded-3xl bg-white p-6 shadow-sm"
+      >
         <div className="grid gap-4 md:grid-cols-2">
           <div className="flex flex-col gap-2">
             <label className="text-xs font-semibold text-navy-900">Name</label>
-            <input name="name" required className="rounded-xl border border-slate-200 px-4 py-3 text-sm" />
+            <input
+              name="name"
+              required
+              placeholder="Full name"
+              className="rounded-xl border border-slate-200 px-4 py-3 text-sm"
+            />
           </div>
           <div className="flex flex-col gap-2">
             <label className="text-xs font-semibold text-navy-900">Role</label>
-            <input name="role" required className="rounded-xl border border-slate-200 px-4 py-3 text-sm" />
+            <input
+              name="role"
+              required
+              placeholder="Role (e.g., CEO)"
+              className="rounded-xl border border-slate-200 px-4 py-3 text-sm"
+            />
           </div>
         </div>
         <div className="flex flex-col gap-2">
-          <label className="text-xs font-semibold text-navy-900">Specialization</label>
-          <input name="specialization" required className="rounded-xl border border-slate-200 px-4 py-3 text-sm" />
+          <label className="text-xs font-semibold text-navy-900">
+            Specialization
+          </label>
+          <input
+            name="specialization"
+            required
+            placeholder="Specialization"
+            className="rounded-xl border border-slate-200 px-4 py-3 text-sm"
+          />
         </div>
         <div className="flex flex-col gap-2">
-          <label className="text-xs font-semibold text-navy-900">Image URL (optional)</label>
-          <input name="imageUrl" className="rounded-xl border border-slate-200 px-4 py-3 text-sm" />
+          <label className="text-xs font-semibold text-navy-900">
+            Upload Image (optional)
+          </label>
+          <FileUploader name="image" />
         </div>
-        <button type="submit" className="w-fit rounded-full bg-navy-900 px-5 py-2 text-xs font-semibold text-ivory">
+        <button
+          type="submit"
+          className="w-fit rounded-full bg-navy-900 px-5 py-2 text-xs font-semibold text-ivory"
+        >
           Add Team Member
         </button>
       </form>
 
       <div className="grid gap-6">
         {team.map((member) => (
-          <div key={member._id.toString()} className="rounded-3xl bg-white p-6 shadow-sm">
+          <div
+            key={member._id.toString()}
+            className="rounded-3xl bg-white p-6 shadow-sm"
+          >
             <form action={updateTeamMember} className="grid gap-4">
               <input type="hidden" name="id" value={member._id.toString()} />
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="flex flex-col gap-2">
-                  <label className="text-xs font-semibold text-navy-900">Name</label>
-                  <input name="name" defaultValue={member.name} className="rounded-xl border border-slate-200 px-4 py-3 text-sm" />
+                  <label className="text-xs font-semibold text-navy-900">
+                    Name
+                  </label>
+                  <input
+                    name="name"
+                    defaultValue={member.name}
+                    placeholder="Full name"
+                    className="rounded-xl border border-slate-200 px-4 py-3 text-sm"
+                  />
                 </div>
                 <div className="flex flex-col gap-2">
-                  <label className="text-xs font-semibold text-navy-900">Role</label>
-                  <input name="role" defaultValue={member.role} className="rounded-xl border border-slate-200 px-4 py-3 text-sm" />
+                  <label className="text-xs font-semibold text-navy-900">
+                    Role
+                  </label>
+                  <input
+                    name="role"
+                    defaultValue={member.role}
+                    placeholder="Role (e.g., CEO)"
+                    className="rounded-xl border border-slate-200 px-4 py-3 text-sm"
+                  />
                 </div>
               </div>
               <div className="flex flex-col gap-2">
-                <label className="text-xs font-semibold text-navy-900">Specialization</label>
-                <input name="specialization" defaultValue={member.specialization} className="rounded-xl border border-slate-200 px-4 py-3 text-sm" />
+                <label className="text-xs font-semibold text-navy-900">
+                  Specialization
+                </label>
+                <input
+                  name="specialization"
+                  defaultValue={member.specialization}
+                  placeholder="Specialization"
+                  className="rounded-xl border border-slate-200 px-4 py-3 text-sm"
+                />
               </div>
               <div className="flex flex-col gap-2">
-                <label className="text-xs font-semibold text-navy-900">Image URL</label>
-                <input name="imageUrl" defaultValue={member.imageUrl} className="rounded-xl border border-slate-200 px-4 py-3 text-sm" />
+                <label className="text-xs font-semibold text-navy-900">
+                  Replace Image
+                </label>
+                <FileUploader name="image" />
               </div>
-              <button type="submit" className="w-fit rounded-full bg-navy-900 px-5 py-2 text-xs font-semibold text-ivory">
+              <button
+                type="submit"
+                className="w-fit rounded-full bg-navy-900 px-5 py-2 text-xs font-semibold text-ivory"
+              >
                 Save Changes
               </button>
             </form>
             <form action={deleteTeamMember} className="mt-4">
               <input type="hidden" name="id" value={member._id.toString()} />
-              <button type="submit" className="rounded-full border border-red-200 px-4 py-2 text-xs font-semibold text-red-600">
+              <button
+                type="submit"
+                className="rounded-full border border-red-200 px-4 py-2 text-xs font-semibold text-red-600"
+              >
                 Delete Member
               </button>
             </form>

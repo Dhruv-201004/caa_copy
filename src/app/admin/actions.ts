@@ -32,7 +32,13 @@ export async function createService(formData: FormData) {
   const title = textValue(formData, "title");
   const category = textValue(formData, "category");
   const description = textValue(formData, "description");
-  const imageUrl = textValue(formData, "imageUrl");
+  const imageUrlField = textValue(formData, "imageUrl");
+  const file = formData.get("image") as File | null;
+  let imageUrl = imageUrlField;
+
+  if (file && file.size > 0) {
+    imageUrl = await saveUploadedFile(file, "services");
+  }
 
   if (!title || !category || !description) {
     throw new Error("Missing required fields");
@@ -51,7 +57,13 @@ export async function updateService(formData: FormData) {
   const title = textValue(formData, "title");
   const category = textValue(formData, "category");
   const description = textValue(formData, "description");
-  const imageUrl = textValue(formData, "imageUrl");
+  const imageUrlField = textValue(formData, "imageUrl");
+  const file = formData.get("image") as File | null;
+  let imageUrl = imageUrlField;
+
+  if (file && file.size > 0) {
+    imageUrl = await saveUploadedFile(file, "services");
+  }
 
   await Service.findByIdAndUpdate(id, {
     title,
@@ -80,7 +92,13 @@ export async function createTeamMember(formData: FormData) {
   const name = textValue(formData, "name");
   const role = textValue(formData, "role");
   const specialization = textValue(formData, "specialization");
-  const imageUrl = textValue(formData, "imageUrl");
+  const imageUrlField = textValue(formData, "imageUrl");
+  const file = formData.get("image") as File | null;
+  let imageUrl = imageUrlField;
+
+  if (file && file.size > 0) {
+    imageUrl = await saveUploadedFile(file, "team");
+  }
 
   if (!name || !role || !specialization) {
     throw new Error("Missing required fields");
@@ -99,7 +117,13 @@ export async function updateTeamMember(formData: FormData) {
   const name = textValue(formData, "name");
   const role = textValue(formData, "role");
   const specialization = textValue(formData, "specialization");
-  const imageUrl = textValue(formData, "imageUrl");
+  const imageUrlField = textValue(formData, "imageUrl");
+  const file = formData.get("image") as File | null;
+  let imageUrl = imageUrlField;
+
+  if (file && file.size > 0) {
+    imageUrl = await saveUploadedFile(file, "team");
+  }
 
   await TeamMember.findByIdAndUpdate(id, {
     name,
